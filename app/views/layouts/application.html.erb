@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Amazon</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+    <%= link_to "All Tags", tags_path %>
+    |
+    <%= link_to "New Product", new_product_path %>
+    |
+    <%= link_to "All Products", products_path %>
+    |
+    <a href='/home'>Home - Vanilla Path</a>
+    |
+    <a href='/home_path'>Home - '/Helper from Rails/Info'</a>
+    |
+    <%= link_to 'About', about_path%>
+    |
+    <a href='<%= home_path %>'>Home - 'Helper As Variable Called Inside String'</a>
+    |
+    <%= link_to 'Contact Us', contact_path%>
+    |
+    <%= link_to 'Home Page as Link To Tag', home_path%>
+    |
+    <%= link_to 'Sign Up', new_user_path%>
+    |
+    <% if user_signed_in? %>
+      Hello <%= current_user.first_name %>
+      <%= link_to 'Sign Out', sessions_path, method: :delete,
+      data: {confirm: 'Sure you want to log out?'} %>
+
+    <% else %>
+      <%= link_to 'Sign In', new_sessions_path%>
+    <% end %>
+
+          <main class="container-fluid">
+        <% flash.each do |type, message| %>
+          <div class="alert alert-<%= type %> alert-dismissible fade show" role="alert">
+            <%= message %>
+            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <% end %>
+<!--    <%= notice || alert %> -->
+        <%= yield %>
+      </main>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+<ul>
+
+  <% @products.each do |product| %>
+    <li>
+      <%=link_to(product.title, product_path(product.id)) %>
+      
+    
+
+    <small> 
+    Created <%= time_ago_in_words(product.created_at) %>
+    </small>
+    </li>
+
+  <% end %>
+
+</ul>

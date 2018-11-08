@@ -1,0 +1,25 @@
+<%= form_for(@product) do |form| %>
+
+<div>
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+</div>
+
+<div>
+  <%= form.label :description %>
+  <%= form.text_area :description %>
+</div>
+
+<div>
+  <%= form.label :price %>
+  <%= form.number_field :price %>
+</div>
+
+<div>
+  <%= form.label :tag_names %>
+  <%= form.text_field :tag_names, class: "selectize-control multi" %>
+<div>
+
+<%= form.submit class: "btn btn-outline-primary" %>
+<% end %>
+

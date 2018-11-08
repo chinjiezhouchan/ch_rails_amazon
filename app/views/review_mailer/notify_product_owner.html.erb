@@ -1,0 +1,18 @@
+<h4>
+  Hi, <%= @review.product.user.first_name %> 
+</h4>
+
+<p>People are giving feedback on your <%= @review.product %>!</p>
+
+<p>
+  <%= @review.product.title %>
+  <br>
+  <%= @review.product.price%>
+</p>
+<p>
+  <%= @review.product.description %> 
+</p>
+
+<%= link_to("Check out that review here", product_url(@review.product, anchor: dom_id(@review)))%>
+
+<p>Cheers, <br>the Amazon team</p>

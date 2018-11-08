@@ -1,0 +1,22 @@
+
+
+<%= form_for([@product, @review]) do |f| %>
+  <% if @review.errors.present? %>
+    <p>
+      <%= @review.errors.full_messages.join(", ") %>
+    </p>
+  <% end %>
+
+      <div>
+        <%= f.number_field(
+          :rating
+        ) %>  
+        <%= f.text_area(
+          :body,
+          cols:60,
+          rows:10
+        ) %>  
+      </div>
+
+      <%= f.submit "Review" %>
+<% end %>

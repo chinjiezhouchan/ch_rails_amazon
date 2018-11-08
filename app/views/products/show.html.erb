@@ -1,0 +1,102 @@
+<% unless @product.tags.empty? %>
+  <div>
+    <% @product.tags.each do |tag| %>
+      <%= link_to tag.name, products_path(tag: tag.name), class: "badge badge-pill badge-primary" %>
+    <% end %>
+  </div>
+<% end %>
+
+<h4> <%= @product.title %> </h4>
+
+<article>
+  <p> <%= @product.description%> </p>
+  <p> Price <%= @product.price %> </p>
+  <small>
+    Created by <%= @product.user&.full_name || 'DELETED' %>
+  </small>
+
+  <small>
+    Created <%= time_ago_in_words(@product.created_at) %> ago 
+  </small>
+
+  <small>
+    Updated <%= time_ago_in_words(@product.updated_at) %> ago
+  </small>
+
+  <% if can?(:ed_del, @product) %>
+    <%= link_to("Delete", product_path(@product.id),
+    method: :delete,
+    data: { confirm: "Are you positive?"}) %>
+
+    <%= link_to("Edit", edit_product_path(@product.id)) %>
+  <% end %>
+
+  <section>
+    <% if @review.errors.present? %>
+    <p>
+      <%= @review.errors.full_messages.join(", ") %>
+    </p>
+  <% end %>
+
+    <%= form_for([@product, @review]) do |f| %>
+      <div>
+        <%= f.number_field(
+          :rating,
+        ) %>  
+        <%= f.text_area(
+          :body,
+          cols:60,
+          rows:10,
+          placeholder: "Your thoughts"
+        ) %>  
+      </div>
+
+      <%= f.submit "Review" %>
+    <% end %>
+  </section>
+
+  <ul>
+    <% @reviews.each do |review| %>
+      <li>
+        <small>
+          <%= review.user&.full_name || 'DELETED' %>
+
+          <%= link_to("Like", product_review_likes_path(@product, review), method: :post)%>
+          •
+          <small>
+            <%= pluralize(review.likes.count, "like") %>
+          </small>
+          
+          <% if review.likes != nil && user_signed_in? %>
+            <% if review.likes.find_by(user_id: current_user.id) != nil %>
+              <% like = review.likes.find_by(user_id: current_user.id)%>
+                <% if user_signed_in? && like %>
+                <%= link_to("Unlike", like_path(like), method: :delete)%>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% if can?(:ed_del, @review) %>
+            •<%= link_to("Delete", product_review_path(@product, review),
+            method: :delete,
+            data: { confirm: "Are you positive?"}) %>
+            •
+            <%= link_to("Edit", edit_product_review_path(@product,review)) %>
+          <% end %>
+        </small>
+        <p>
+          
+          <%= review.rating %>
+          <%= review.body %>
+          
+        </p>
+      </li>
+
+      <% if can?(:ed_del, review) %>
+
+
+      <% end %>
+    <% end %>
+  </ul>
+
+</article>
